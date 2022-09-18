@@ -1,7 +1,7 @@
 {
   "name": "@quick-toolkit/di",
   "version": "1.0.0",
-  "description": "di is typescript di framework.",
+  "description": "The @quick-toolkit/di a tiny inversion of control container for JavaScript.",
   "main": "dist/cjs",
   "types": "dist/types",
   "scripts": {
@@ -18,15 +18,16 @@
     "url": "git+https://github.com/quick-toolkit/class-mirror.git"
   },
   "keywords": [
+    "di",
     "@quick-toolkit",
-    "@quick-toolkit/class-mirror"
+    "@quick-toolkit/di"
   ],
   "author": "RanYunLong<549510622@qq.com>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/quick-toolkit/class-mirror/issues"
+    "url": "https://github.com/quick-toolkit/di/issues"
   },
-  "homepage": "https://github.com/quick-toolkit/class-mirror#readme",
+  "homepage": "https://github.com/quick-toolkit/di#readme",
   "devDependencies": {
     "@babel/core": "^7.16.0",
     "@babel/preset-env": "^7.16.4",
