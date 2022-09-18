@@ -9,7 +9,7 @@ module.exports = {
     filename: "[name].js",
     library: {
       type: 'umd2',
-      name: 'ClassMirror',
+      name: 'Di',
     }
   },
   module: {
