@@ -1,0 +1,6 @@
+{
+  "entryPoints": ["./src/index.ts"],
+  "name": "ClassMirror API",
+  "hideGenerator": true,
+  "includeVersion": true
+}
