@@ -91,7 +91,6 @@ export abstract class Injector {
    * @param notFoundValue
    */
   public get<T>(token: ProviderToken<T>, notFoundValue?: T): T | undefined {
-    console.log(token);
     if (!this.provide.has(token)) {
       this.lookupProviders(token);
       return this.provide.get(token);

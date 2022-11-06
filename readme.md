@@ -16,18 +16,16 @@ yarn add reflect-metadata @quick-toolkit/class-mirror @quick-toolkit/di
 ### Crate application
 
 ```ts
-import {DefModule, Injector} from '@quick-toolkit/di';
+import {QDModule} from "../../src";
 
-@DefModule({})
+@QDModule({
+  imports: [],
+  providers: [],
+  exports: [],
+})
 export class Application {
-  public getName() {
-    return 'Application';
-  }
+  public constructor() {}
 }
-
-const app = Injector.bootstrap(Application);
-
-app.getName() //application  
 ```
 
 
@@ -36,9 +34,9 @@ app.getName() //application
 > config.service.ts
 
 ```ts
-import {Injectable} from "./index";
+import {QDInjectable} from "../../src";
 
-@Injectable()
+@QDInjectable()
 export class ConfigService {
   private name: string = "alice"
   public setName(name: string) {
@@ -53,9 +51,10 @@ export class ConfigService {
 > config.module.ts
 
 ```ts
-import {ConfigService} from './config.service.ts'
+import {QDModule} from "../../src";
+import {ConfigService} from "./config.service";
 
-@DefModule({
+@QDModule({
   // provider services
   providers: [ConfigService],
   exports: [ConfigService],
@@ -69,24 +68,24 @@ export class Config {
 ```
 
 ```ts
-import {DefModule, Injector} from '@quick-toolkit/di';
-import {Config} from './config.module.ts'
+import {assert} from 'chai';
+import {QDModule} from "../../src";
+import {Config} from "./config.module";
+import {ConfigService} from "./config.service";
 
-@DefModule({
+@QDModule({
   imports: [Config],
+  providers: [],
+  exports: [],
 })
 export class Application {
-  public constructor(private configService: ConfigService) {
+  public constructor(private configService: ConfigService, private config: Config) {
     configService.getName() // bob
-  }
-
-
-  public getName() {
-    return 'Application';
   }
 }
 
-Injector.bootstrap(Application);
+const app = EnvironmentInjector.run(Application);
+asset.equal(app.configService, config.configService);
 ```
 
 

@@ -1,7 +1,7 @@
 import {QDInjectable} from "../../../../src";
 
 @QDInjectable()
-export class Storage {
+export class StorageService {
   private name: number = new Date().getTime()
 
   public getName() {

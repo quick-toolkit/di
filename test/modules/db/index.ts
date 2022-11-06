@@ -1,9 +1,10 @@
 import {QDModule} from "../../../src";
-import {Storage} from "./services/storage";
+import {StorageService} from "./services/storageService";
 
 @QDModule({
-  providers: [Storage]
+  providers: [StorageService],
+  exports: [StorageService]
 })
 export class Db {
-  public constructor(public storage: Storage) {}
+  public constructor(public storageService: StorageService) {}
 }

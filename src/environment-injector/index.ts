@@ -23,7 +23,8 @@
 import { ClassMirror, ParameterDecorate } from '@quick-toolkit/class-mirror';
 import { Injector } from '../injector';
 import { Provider, ProviderToken, StaticProvider, Type } from '../interfaces';
-import { QDModuleDecorate } from '../decorators';
+import { QDInjectable, QDModuleDecorate } from '../decorators';
+import { QDInjectableDecorate } from '../decorators/qd-injectable/decorate';
 
 /**
  * @author RanYunLong<549510622@qq.com>
@@ -67,8 +68,41 @@ export class EnvironmentInjector extends Injector {
         _.useClass = provide;
       }
       _.deps = deps;
+      if (_.useClass && !_.deps) {
+        (_ as any).deps = EnvironmentInjector.deps(_.useClass);
+      }
       return _ as StaticProvider;
     });
+  }
+
+  /**
+   * Get deps from Type
+   */
+  public static deps(type: Type<any>): ProviderToken<any>[] {
+    const reflect = ClassMirror.reflect(type);
+    const decorates = reflect.getDecorates(QDInjectableDecorate);
+    if (!decorates.length) {
+      console.warn(
+        `The Service ${type.name} not used "@QDInjectable()" decorator, please use ClassDecorator "@QDInjectable()" in your service class.`
+      );
+    }
+    const parameters = reflect.getParameters();
+    const list: ProviderToken<any>[] = [];
+    parameters.forEach((parameterMirror) => {
+      list[parameterMirror.index] = parameterMirror.getDesignParamType() as any;
+      EnvironmentInjector.parameterDecorateTokens.forEach((v, t) => {
+        const parameterDecorates = parameterMirror.getDecorates(t);
+        if (parameterDecorates) {
+          for (const decorate of parameterDecorates) {
+            const token = v(decorate);
+            if (token !== undefined && token !== null) {
+              list[parameterMirror.index] = token;
+            }
+          }
+        }
+      });
+    });
+    return list;
   }
 
   /**

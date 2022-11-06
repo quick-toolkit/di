@@ -1,15 +1,16 @@
 import 'reflect-metadata';
 import {describe} from 'mocha';
+import {assert} from 'chai';
 import {EnvironmentInjector} from "../src";
 import {Application} from "./application";
 
 describe('index.spec.ts', () => {
-  it('init app', async () => {
+  it('should import module one instance.',  () => {
     const app = EnvironmentInjector.run(Application);
-    app.user.db.storage.updateName()
-    console.log(app.db.storage.getName())
-    console.log(app.user.db.storage.getName())
-
-    console.log(app.db.storage === app.user.db.storage)
+    app.user.db.storageService.updateName()
+    assert.equal(app.db, app.user.db);
+    assert.equal(app.user.db.storageService, app.db.storageService)
+    assert.equal(app.user.db.storageService.getName(), app.db.storageService.getName())
+    assert.equal(app.userService, app.roleService.userService)
   });
 });

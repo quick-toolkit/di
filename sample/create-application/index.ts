@@ -1,8 +1,14 @@
-import {DefModule, Injector} from '../../src';
+import {QDModule} from "../../src";
+import {Config} from "./config.module";
+import {ConfigService} from "./config.service";
 
-@DefModule({})
+@QDModule({
+  imports: [Config],
+  providers: [],
+  exports: [],
+})
 export class Application {
-  public getName() {
-    return 'Application';
+  public constructor(private configService: ConfigService, private config: Config) {
+    configService.getName() // bob
   }
 }
