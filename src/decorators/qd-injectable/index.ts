@@ -20,6 +20,14 @@
  * SOFTWARE.
  */
 
-export * from './injectable';
-export * from './def-module';
-export * from './inject';
+import { ClassMirror } from '@quick-toolkit/class-mirror';
+import { QDInjectableDecorate } from './decorate';
+
+/**
+ * @author RanYunLong<549510622@qq.com>
+ * @function QDInjectable decorator
+ * @constructor
+ */
+export function QDInjectable(): ClassDecorator {
+  return ClassMirror.createDecorator(new QDInjectableDecorate(null));
+}

@@ -19,14 +19,17 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-import { ClassMirror } from '@quick-toolkit/class-mirror';
-import { DefModuleDecorate, DefModuleOptions } from './decorate';
+import { ClassDecorate } from '@quick-toolkit/class-mirror';
+import { Provider, Type } from '../../interfaces';
 
 /**
- * DefModule decorator
- * @param options
- * @constructor
+ * @author RanYunLong<549510622@qq.com>
+ * @class QDModuleDecorate
  */
-export function DefModule(options: DefModuleOptions = {}): ClassDecorator {
-  return ClassMirror.createDecorator(new DefModuleDecorate(options));
+export class QDModuleDecorate extends ClassDecorate<QDModuleOptions> {}
+
+export interface QDModuleOptions {
+  imports?: Type<any>[];
+  providers?: Provider[];
+  exports?: Provider[];
 }

@@ -19,9 +19,17 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-import { ClassDecorate } from '@quick-toolkit/class-mirror';
+import { ClassMirror } from '@quick-toolkit/class-mirror';
+import { QDModuleDecorate, QDModuleOptions } from './decorate';
+
+export { QDModuleDecorate, QDModuleOptions };
 
 /**
- * @class InjectableDecorate
+ * @author RanYunLong<549510622@qq.com>
+ * QDModule decorator
+ * @param options
+ * @constructor
  */
-export class InjectableDecorate extends ClassDecorate<null> {}
+export function QDModule(options: QDModuleOptions = {}): ClassDecorator {
+  return ClassMirror.createDecorator(new QDModuleDecorate(options));
+}

@@ -20,13 +20,32 @@
  * SOFTWARE.
  */
 
-import { ClassMirror } from '@quick-toolkit/class-mirror';
-import { InjectableDecorate } from './decorate';
-
 /**
- * @function Injectable decorator
- * @constructor
+ * @author RanYunLong<549510622@qq.com>
+ * @class Helpers
  */
-export function Injectable(): ClassDecorator {
-  return ClassMirror.createDecorator(new InjectableDecorate(null));
+export class Helpers {
+  /**
+   * To String
+   * @param value
+   */
+  public static toString(value: any): string {
+    if (value === null) {
+      return 'Null';
+    }
+
+    if (
+      value instanceof String ||
+      value instanceof Number ||
+      typeof value === 'function' ||
+      typeof value === 'symbol'
+    ) {
+      return value.toString();
+    }
+    if (typeof value === 'object') {
+      return JSON.stringify(value);
+    }
+
+    return value;
+  }
 }

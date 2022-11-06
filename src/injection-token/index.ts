@@ -20,7 +20,25 @@
  * SOFTWARE.
  */
 
-export * from './injector';
-export * from './decorators';
-export * from './injection-token';
-export * from './interfaces/provider';
+/**
+ * @author RanYunLong<549510622@qq.com>
+ * @class InjectionToken
+ */
+export class InjectionToken<T = any> {
+  /**
+   * constructor
+   * @param name
+   * @param factory
+   */
+  public constructor(
+    public readonly name: string,
+    protected factory?: () => T
+  ) {}
+
+  /**
+   * @internal
+   */
+  public toString(): string {
+    return `InjectionToken { ${this.name} }`;
+  }
+}

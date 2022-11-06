@@ -19,10 +19,10 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
  * SOFTWARE.
  */
-import { ParameterDecorate } from '@quick-toolkit/class-mirror';
-import { InjectionToken } from '../../injection-token';
+import { ClassDecorate } from '@quick-toolkit/class-mirror';
 
 /**
- * @class InjectableDecorate
+ * @author RanYunLong<549510622@qq.com>
+ * @class QDInjectableDecorate
  */
-export class InjectDecorate extends ParameterDecorate<InjectionToken> {}
+export class QDInjectableDecorate extends ClassDecorate<null> {}

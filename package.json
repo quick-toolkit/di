@@ -1,6 +1,6 @@
 {
   "name": "@quick-toolkit/di",
-  "version": "1.0.1",
+  "version": "1.0.1-next",
   "description": "The @quick-toolkit/di a tiny inversion of control container for JavaScript.",
   "main": "dist/cjs",
   "types": "dist/types",
