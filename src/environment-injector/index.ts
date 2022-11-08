@@ -23,8 +23,9 @@
 import { ClassMirror, ParameterDecorate } from '@quick-toolkit/class-mirror';
 import { Injector } from '../injector';
 import { Provider, ProviderToken, StaticProvider, Type } from '../interfaces';
-import { QDInjectable, QDModuleDecorate } from '../decorators';
+import { QDModuleDecorate } from '../decorators';
 import { QDInjectableDecorate } from '../decorators/qd-injectable/decorate';
+import { QDInjectDecorate } from '../decorators/qd-inject/decorate';
 
 /**
  * @author RanYunLong<549510622@qq.com>
@@ -123,6 +124,11 @@ export class EnvironmentInjector extends Injector {
     }
     const reflect = ClassMirror.reflect(module);
     const decorates = reflect.getDecorates(QDModuleDecorate);
+    if (!decorates.length) {
+      console.warn(
+        `The Service ${module.name} not used "@QDModule()" decorator, please use ClassDecorator "@QDModule()" in your module class.`
+      );
+    }
     const parameters = reflect.getParameters();
     const _providers: Set<Provider> = new Set();
     const _imports: Set<Type<any>> = new Set();
@@ -208,3 +214,8 @@ export class EnvironmentInjector extends Injector {
     super(EnvironmentInjector.providers(providers));
   }
 }
+
+EnvironmentInjector.parameterDecorateTokens.set(
+  QDInjectDecorate,
+  (m) => m.metadata
+);
