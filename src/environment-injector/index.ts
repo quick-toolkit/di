@@ -90,7 +90,6 @@ export class EnvironmentInjector extends Injector {
     const parameters = reflect.getParameters();
     const list: ProviderToken<any>[] = [];
     parameters.forEach((parameterMirror) => {
-      list[parameterMirror.index] = parameterMirror.getDesignParamType() as any;
       EnvironmentInjector.parameterDecorateTokens.forEach((v, t) => {
         const parameterDecorates = parameterMirror.getDecorates(t);
         if (parameterDecorates) {
@@ -102,6 +101,11 @@ export class EnvironmentInjector extends Injector {
           }
         }
       });
+
+      if (list[parameterMirror.index] === undefined) {
+        list[parameterMirror.index] =
+          parameterMirror.getDesignParamType() as any;
+      }
     });
     return list;
   }
@@ -166,7 +170,6 @@ export class EnvironmentInjector extends Injector {
     });
     const deps: ProviderToken<any>[] = [];
     parameters.forEach((parameterMirror) => {
-      deps[parameterMirror.index] = parameterMirror.getDesignParamType() as any;
       EnvironmentInjector.parameterDecorateTokens.forEach((v, t) => {
         const parameterDecorates = parameterMirror.getDecorates(t);
         if (parameterDecorates) {
@@ -178,6 +181,10 @@ export class EnvironmentInjector extends Injector {
           }
         }
       });
+      if (deps[parameterMirror.index] === undefined) {
+        deps[parameterMirror.index] =
+          parameterMirror.getDesignParamType() as any;
+      }
     });
     _providers.add({
       provide: module,
