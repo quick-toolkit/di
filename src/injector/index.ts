@@ -62,16 +62,21 @@ export abstract class Injector {
             `The deps ${Helpers.toString(deps)} is not a array.`
           );
         }
-        deps.forEach((dep) => this.lookupProviders(dep));
+        // deps.forEach((dep) => this.lookupProviders(dep));
+        for (const dep of deps) {
+          this.lookupProviders(dep);
+        }
       }
       // It's a value provider
       if (useValue) {
         this.provide.set(provide, useValue);
       } else if (useClass) {
-        const _ = Injector.construct(
-          useClass,
-          deps.map((dep) => this.provide.get(dep))
-        );
+        const _ =
+          this.provide.get(provide) ||
+          Injector.construct(
+            useClass,
+            deps.map((dep) => this.provide.get(dep))
+          );
         this.provide.set(provide, _);
       } else if (useFactory) {
         if (typeof useFactory !== 'function') {
@@ -79,7 +84,9 @@ export abstract class Injector {
             `The factory ${Helpers.toString(useFactory)} is not a function.`
           );
         }
-        const _ = useFactory(...deps.map((dep) => this.provide.get(dep)));
+        const _ =
+          this.provide.get(provide) ||
+          useFactory(...deps.map((dep) => this.provide.get(dep)));
         this.provide.set(provide, _);
       }
     }

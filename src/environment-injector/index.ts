@@ -126,13 +126,15 @@ export class EnvironmentInjector extends Injector {
     const decorates = reflect.getDecorates(QDModuleDecorate);
     if (!decorates.length) {
       console.warn(
-        `The Service ${module.name} not used "@QDModule()" decorator, please use ClassDecorator "@QDModule()" in your module class.`
+        `The Service ${module.name} not used "@GDModule()" decorator, please use ClassDecorator "@GDModule()" in your module class.`
       );
     }
     const parameters = reflect.getParameters();
     const _providers: Set<Provider> = new Set();
     const _imports: Set<Type<any>> = new Set();
     const _exports: Set<Provider> = new Set();
+
+    // 解析依赖
     decorates.forEach((decorate) => {
       if (decorate.metadata) {
         const {
@@ -151,6 +153,8 @@ export class EnvironmentInjector extends Injector {
         }
       }
     });
+
+    // 处理模块导入
     _imports.forEach((_) => {
       const injector = EnvironmentInjector.reflect(_, scope);
       injector.exports.forEach((staticProvider) => {
@@ -165,6 +169,8 @@ export class EnvironmentInjector extends Injector {
       });
     });
     const deps: ProviderToken<any>[] = [];
+
+    // 解析需要注入的参数
     parameters.forEach((parameterMirror) => {
       deps[parameterMirror.index] = parameterMirror.getDesignParamType() as any;
       EnvironmentInjector.parameterDecorateTokens.forEach((v, t) => {
@@ -179,15 +185,21 @@ export class EnvironmentInjector extends Injector {
         }
       });
     });
+
     _providers.add({
       provide: module,
       deps,
     });
+
+    // 创建 injector
     const injector = new EnvironmentInjector(Array.from(_providers));
+
     injector.exports = EnvironmentInjector.providers(Array.from(_exports));
+
     const injectors = EnvironmentInjector.$scope.get(scope) || new Map();
     injectors.set(module, injector);
     EnvironmentInjector.$scope.set(scope, injectors);
+
     return injector;
   }
 
